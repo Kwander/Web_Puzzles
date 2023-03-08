@@ -1,0 +1,142 @@
+/* Global styles */
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #222;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Header styles */
+header {
+  background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url("../img/header-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 4rem;
+}
+
+header p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Navigation styles */
+nav {
+  padding: 1rem 0;
+  background-color: #222;
+}
+
+nav a {
+  color: #fff;
+}
+
+nav .navbar-toggler {
+  font-size: 1.25rem;
+  border-color: #fff;
+}
+
+nav .navbar-toggler:focus,
+nav .navbar-toggler:active {
+  outline: none;
+}
+
+nav .navbar-toggler-icon {
+  background-color: #fff;
+}
+
+nav .navbar-nav>.nav-item>a {
+  padding: 0.5rem 1rem;
+}
+
+/* Section styles */
+section {
+  padding: 4rem 0;
+}
+
+section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+section p {
+  margin-bottom: 2rem;
+}
+
+/* Puzzle styles */
+.puzzle-container {
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.puzzle-header {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #e9ecef;
+  text-align: center;
+}
+
+.puzzle-body {
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
+}
+
+.puzzle-image {
+  max-width: 100%;
+  max-height: 400px;
+  margin-bottom: 1rem;
+}
+
+.puzzle-description {
+  margin-bottom: 1rem;
+}
+
+/* Footer styles */
+footer {
+  padding: 4rem 0;
+  background-color: #222;
+  color: #fff;
+}
+
+footer a {
+  color: #fff;
+}
+
+.social-buttons li {
+  margin: 0 0.5rem;
+}
+
+.social-buttons li a i {
+  font-size: 2rem;
+  line-height: 1.5;
+}
