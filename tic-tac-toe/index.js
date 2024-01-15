@@ -1,123 +1,63 @@
 const boxes = document.querySelectorAll('.box');
 const player_turn = document.querySelector('.player-turn');
-const resetButton = document.querySelector('#reset');
-const announcer = document.querySelector('.announcer');
+const reset_button = document.querySelector('#reset');
 
+let X = 0; // bitboard for X
+let O = 0; // bitboard for O
+let currentPlayer = 'X';
 
+const wins = [7, 56, 448, 73, 146, 292, 273, 84];
 
-
-window.addEventListener('DOMContentLoaded', () => {
-    const PLAYERX_WON = 'PLAYERX_WON';
-    const PLAYERO_WON = 'PLAYERO_WON';
-    const TIE = 'TIE';
-
-    let board = ['', '', '', '', '', '', '', '', ''];
-    let currentPlayer = 'X';
-    let isGameActive = true;
-
-    const winningConditions = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
-    const boxes = Array.from(document.querySelectorAll('.box'));
-    const player_turn = document.querySelector('.player-turn');
-    const resetButton = document.querySelector('#reset');
-    const announcer = document.querySelector('.announcer');
-
-
-    boxes.forEach((box, index) => {
-        box.addEventListener('click', () => {
-            if (isValidAction(box) && isGameActive) {
-                box.innerText = currentPlayer;
-                box.classList.add(`player${currentPlayer}`);
-                updateBoard(index);
-                handleResultValidation();
-                changePlayer();
-            }
-        });
-    });
-
-    resetButton.addEventListener('click', resetBoard);
-
-    function isValidAction(box) {
-        if (box.innerText === 'X' || box.innerText === 'O') {
-            return false;
-        }
-        return true;
-    }
-
-    function updateBoard(index) {
-        board[index] = currentPlayer;
-    }
-
-    function handleResultValidation() {
-        let roundWon = false;
-        for (let i = 0; i <= 7; i++) {
-            const winCondition = winningConditions[i];
-            const a = board[winCondition[0]];
-            const b = board[winCondition[1]];
-            const c = board[winCondition[2]];
-            if (a === '' || b === '' || c === '') {
-                continue;
-            }
-            if (a === b && b === c) {
-                roundWon = true;
-                break;
-            }
-        }
-
-        if (roundWon) {
-            announce(currentPlayer === 'X' ? PLAYERX_WON : PLAYERO_WON);
-            isGameActive = false;
+function move(pos) {
+    if (currentPlayer === 'X') {
+        X |= 1 << pos;
+        if (wins.some(win => (X & win) === win)) {
+            announceWin('X');
             return;
         }
-
-        if (!board.includes('')) {
-            announce(TIE);
+    } else {
+        O |= 1 << pos;
+        if (wins.some(win => (O & win) === win)) {
+            announceWin('O');
+            return;
         }
     }
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    player_turn.innerText = currentPlayer + "s turn";
 
-    function announce(type) {
-        switch (type) {
-            case PLAYERO_WON:
-                announcer.innerHTML = 'Player <span class="playerO">O</span> WINS!!!!!!';
-                break;
-            case PLAYERX_WON:
-                announcer.innerHTML = 'Player <span class="turn1">X</span> WINS!!!!!!';
-                break;
-            case TIE:
-                announcer.innerText = 'Tie';
-        }
-        announcer.classList.remove('hide');
+    // Check for a tie
+    if ((X | O) === 511) {
+        announceTie();
+        return;
     }
+}
 
-    function changePlayer() {
-        player_turn.classList.remove(`player${currentPlayer}`);
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        player_turn.innerText = currentPlayer;
-        player_turn.classList.add(`player${currentPlayer}`);
+function announceWin(winner) {
+    player_turn.innerText = winner + ' wins!';
+    startConfetti();
+    setTimeout(stopConfetti, 1500);
+}
+
+function announceTie() {
+    player_turn.innerText = 'It\'s a tie!';
+}
+
+function boxClicked(e) {
+    const index = Array.from(boxes).indexOf(e.target);
+    if ((X & (1 << index)) === 0 && (O & (1 << index)) === 0) {
+        e.target.innerText = currentPlayer;
+        move(index);
     }
+}
 
-    function resetBoard() {
-        board = ['', '', '', '', '', '', '', '', ''];
-        isGameActive = true;
-        announcer.classList.add('hide');
+function resetGame() {
+    X = 0;
+    O = 0;
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    player_turn.innerText = currentPlayer + "s turn";
+    boxes.forEach(box => box.innerText = '');
+    stopConfetti();
+}
 
-        if (currentPlayer === 'O') {
-            changePlayer();
-        }
-
-        boxes.forEach(box => {
-            box.innerText = '';
-            box.classList.remove('turn1');
-            box.classList.remove('playerO');
-        });
-    }
-});
+boxes.forEach(box => box.addEventListener("click", boxClicked));
+reset_button.addEventListener("click", resetGame);
