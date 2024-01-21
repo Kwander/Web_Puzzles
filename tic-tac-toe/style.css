@@ -6,29 +6,22 @@
     text-shadow: 1px 1px #000000;
     font-weight: bold;
     font-style: italic;
-    padding-bottom: 200px;
 }
-
 
 .window {
     color: azure;
     font-size: 25px;
     text-align: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 44%;
-    margin-right: 44%;
+    margin: 1em 44%;
     background: #001515;
     border-radius: 10px;
 }
 
 .controls {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    margin-top: 1em;
 }
+
 
 .bored_get_it {
     margin: 0 auto;
@@ -39,7 +32,7 @@
 }
 
 .box {
-    border: 1px solid #C5C6D0;
+    border: 1px solid #717178;
     border-radius: 6px;
     min-height: 100px;
     display: flex;
@@ -47,7 +40,6 @@
     align-items: center;
     font-size: 50px;
     cursor: pointer;
-    /* makes cursor pointer when you hover it */
 }
 
 #confetti-canvas {
@@ -57,21 +49,17 @@
     z-index: 9999;
 }
 
-
-
 .controls button {
-    color: white;
-    padding: 8px;
+    padding: 6px;
     border-radius: 8px;
-    border: none;
-    font-size: 20px;
-    margin-left: 1em;
+    font-size: 16px;
     cursor: pointer;
     border: 1px solid black;
 }
 
 
 #reset {
+    color:white;
     background-color: #FF3860;
     border: 1px solid black;
 }
