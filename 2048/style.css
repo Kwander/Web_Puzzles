@@ -50,16 +50,23 @@ body {
 #game-controls {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
-
 
 .score, #reset {
     font-size: 2em;
     font-weight: bold;
     margin: 0 10px;
-    color:rgb(38, 102, 223);
+    color: rgb(38, 102, 223);
+}
+
+.highest-tile {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 5px 10px;
+    color: rgb(38, 102, 223);
 }
 
 #reset {
@@ -68,73 +75,96 @@ body {
     font-size: 16px;
     cursor: pointer;
     border: 1px solid black;
-    color:white;
+    color: white;
     background-color: #FF3860;
-    border: 1px solid black;
+    margin-top: 10px;
 }
 
-
 .tile_2 {
-    background-color: #eee4da;
-    color: #727371;
+    background-color: #EEE4DA;
+    color: #776E65;
+    /* Soft beige - Starting easy */
 }
 
 .tile_4 {
-    background-color: #ece0ca;
-    color: #727371;
+    background-color: #B2DFDB;
+    color: #4C4C4C;
+    /* Soft mint green */
 }
 
 .tile_8 {
-    background-color: #f4b17a;
+    background-color: #FF9F89;
     color: white;
+    /* Coral pink */
 }
 
-.tile_16{
-    background-color: #f59575;
+.tile_16 {
+    background-color: #7986CB;
     color: white;
+    /* Royal blue */
 }
 
-.tile_32{
-    background-color: #f57c5f;
+.tile_32 {
+    background-color: #9575CD;
     color: white;
+    /* Deep purple */
 }
 
-.tile_64{
-    background-color: #f65d3b;
+.tile_64 {
+    background-color: #4DB6AC;
     color: white;
+    /* Turquoise */
 }
 
-.tile_128{
-    background-color: #edce71;
+.tile_128 {
+    background-color: #FFB74D;
     color: white;
+    /* Golden orange with slight glow */
+    box-shadow: 0 0 10px #FFB74D;
 }
 
-.tile_256{
-    background-color: #edcc63;
+.tile_256 {
+    background-color: #FF7043;
     color: white;
+    /* Deep orange with glow */
+    box-shadow: 0 0 15px #FF7043;
 }
 
-.tile_512{
-    background-color: #edc651;
+.tile_512 {
+    background-color: #EC407A;
     color: white;
+    /* Hot pink with stronger glow */
+    box-shadow: 0 0 20px #EC407A;
 }
 
-.tile_1024{
-    background-color: #eec744;
+.tile_1024 {
+    background-color: #5C6BC0;
     color: white;
+    /* Indigo with intense glow */
+    box-shadow: 0 0 25px #5C6BC0;
+    font-size: 40px; /* Slightly smaller font for 4 digits */
 }
 
-.tile_2048{
-    background-color: #ecc230;
+.tile_2048 {
+    background-color: #26A69A;
     color: white;
+    /* Teal with maximum glow */
+    box-shadow: 0 0 30px #26A69A;
+    font-size: 40px;
 }
 
 .tile_4096 {
-    background-color: #fe3d3d;
+    background-color: #8E24AA;
     color: white;
+    /* Deep purple with rainbow effect */
+    box-shadow: 0 0 35px #8E24AA;
+    font-size: 40px;
 }
 
 .tile_8192 {
-    background-color: #ff2020;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96C93D);
     color: white;
+    /* Rainbow gradient with maximum glow */
+    box-shadow: 0 0 40px rgba(150, 201, 61, 0.8);
+    font-size: 40px;
 }
