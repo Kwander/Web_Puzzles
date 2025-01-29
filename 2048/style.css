@@ -18,33 +18,62 @@ body {
     border-radius: 7px;
     width: 485px;
     height: 485px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 14px;
+    padding: 14px;
+}
+
+.board_2048::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* Create empty grid cells in the background */
+.board_2048::after {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.board_2048::after > * {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 7px;
+}
+
+/* Add empty grid cells */
+.empty-cell {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(238, 228, 218, 0.35);  /* or whatever color you want */
+    margin: 5px;  /* for spacing between cells */
 }
 
 .box {
+    position: absolute;
     width: 100px;
     height: 100px;
-    border: 14px solid #e4ccb4;
-    border-radius: 7px;
-    font-size: 50px;
-    font-weight: bold;
-    background-color: #CDC1B4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: margin 200ms;
-    position:absolute;
+    margin: 5px;
 }
 
-/* Tile positioning classes */
-.tile-row0 { margin-top: 0px; }
-.tile-row1 { margin-top: 121.25px; }
-.tile-row2 { margin-top: 242.5px; }
-.tile-row3 { margin-top: 363.75px; }
+/* Tile positioning classes - adjusted for grid padding (14px) and gaps */
+.tile-row0 { margin-top: 3.71%; }
+.tile-row1 { margin-top: 28%; } /* 14px + 100px + 14px */
+.tile-row2 { margin-top: 52.36%; } /* 14px + (100px + 14px) * 2 */
+.tile-row3 { margin-top: 76.65%; } /* 14px + (100px + 14px) * 3 */
 
-.tile-col0 { margin-left: 0px; }
-.tile-col1 { margin-left: 121.25px; }
-.tile-col2 { margin-left: 242.5px; }
-.tile-col3 { margin-left: 363.75px; }
+.tile-col0 { margin-left: 3.71%; }
+.tile-col1 { margin-left: 28%; } /* 14px + 100px + 14px */
+.tile-col2 { margin-left: 52.36%; } /* 14px + (100px + 14px) * 2 */
+.tile-col3 { margin-left: 76.65%; } /* 14px + (100px + 14px) * 3 */
 
 #game-controls {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -150,4 +179,10 @@ body {
     /* Rainbow gradient with maximum glow */
     box-shadow: 0 0 40px rgba(150, 201, 61, 0.8);
     font-size: 40px;
+}
+
+.tile {
+    position: absolute;
+    width: 100px;  /* Should match your grid cell size */
+    height: 100px; /* Should match your grid cell size */
 }
