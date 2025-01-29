@@ -1,51 +1,50 @@
 body {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    position: relative; 
 }
 
 .puzzle_name {
     color: darkblue;
-    text-align: left;
-    font-size: 30px;
-    margin-left: 30px;
+    font: italic bold 30px auto;
     text-shadow: 1px 1px #000000;
-    font-weight: bold;
-    font-style: italic;
     position: absolute; 
-    top: 0px; 
-    left: 10px; 
+    inset: 0px auto auto 70px;
 }
 
 .board_2048 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 5px;
-    justify-items: center;
-    align-items: center;
-    width: fit-content;
-    margin-bottom: 20px;
-    background-color: #e4ccb4;
-    border: 12px solid #e4ccb4;
-    border-radius: 4px;
+    background-color: darkslateblue;
+    border: 12px solid darkslateblue;
+    border-radius: 7px;
+    width: 485px;
+    height: 485px;
 }
 
 .box {
     width: 100px;
     height: 100px;
-    border: 5px solid #e4ccb4;
+    border: 14px solid #e4ccb4;
+    border-radius: 7px;
     font-size: 50px;
     font-weight: bold;
-
     background-color: #CDC1B4;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    transition: margin 200ms;
+    position:absolute;
 }
+
+/* Tile positioning classes */
+.tile-row0 { margin-top: 0px; }
+.tile-row1 { margin-top: 121.25px; }
+.tile-row2 { margin-top: 242.5px; }
+.tile-row3 { margin-top: 363.75px; }
+
+.tile-col0 { margin-left: 0px; }
+.tile-col1 { margin-left: 121.25px; }
+.tile-col2 { margin-left: 242.5px; }
+.tile-col3 { margin-left: 363.75px; }
 
 #game-controls {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -138,14 +137,6 @@ body {
 }
 
 .tile_1024 {
-    background-color: #5C6BC0;
-    color: white;
-    /* Indigo with intense glow */
-    box-shadow: 0 0 25px #5C6BC0;
-    font-size: 40px; /* Slightly smaller font for 4 digits */
-}
-
-.tile_2048 {
     background-color: #26A69A;
     color: white;
     /* Teal with maximum glow */
@@ -153,15 +144,7 @@ body {
     font-size: 40px;
 }
 
-.tile_4096 {
-    background-color: #8E24AA;
-    color: white;
-    /* Deep purple with rainbow effect */
-    box-shadow: 0 0 35px #8E24AA;
-    font-size: 40px;
-}
-
-.tile_8192 {
+.tile_2048 {
     background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96C93D);
     color: white;
     /* Rainbow gradient with maximum glow */
