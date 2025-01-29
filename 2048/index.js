@@ -1,15 +1,23 @@
-let boxes;
+let tilesContainer;
+let boxes = new Array(16).fill(null);  // Array to track tile positions
 let reset_button;
 let span;
 let highest_tile_span;
 let hasWon = false;
+
+function createTile(value, row, col) {
+    const tile = document.createElement('div');
+    tile.className = `box tile_${value} tile-row${row} tile-col${col}`;
+    tile.innerText = value;
+    return tile;
+}
 
 function spawnTile() {
     const randomValue = () => Math.random() < 0.9 ? 2 : 4;
     let emptyPositions = [];
 
     for (let i = 0; i < boxes.length; i++) {
-        if (!boxes[i].innerText) {
+        if (!boxes[i]) {
             emptyPositions.push(i);
         }
     }
@@ -20,27 +28,21 @@ function spawnTile() {
         const value = randomValue();
         const row = Math.floor(positionToSpawn / 4);
         const col = positionToSpawn % 4;
+        
         console.log(`Spawning new tile ${value} at position (${row}, ${col})`);
-        boxes[positionToSpawn].innerText = value;
-        boxes[positionToSpawn].classList.add(`tile_${value}`);
+        const newTile = createTile(value, row, col);
+        tilesContainer.appendChild(newTile);
+        boxes[positionToSpawn] = newTile;
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    boxes = document.querySelectorAll('.box');
+    tilesContainer = document.getElementById('tiles-container');
     reset_button = document.querySelector('#reset');
     span = document.querySelector(".actual_score");
     highest_tile_span = document.querySelector(".actual_highest");
 
-    // Initialize position classes for all boxes
-    boxes.forEach((box, index) => {
-        const row = Math.floor(index / 4);
-        const col = index % 4;
-        box.classList.add(`tile-row${row}`, `tile-col${col}`);
-    });
-
     reset_button.addEventListener('click', resetGame);
-
     spawnTile();
     spawnTile();
 });
@@ -49,8 +51,9 @@ function collectTiles(start, end, step, getIndex) {
     let tiles = [];
     for (let i = start; i !== end; i += step) {
         const index = getIndex(i);
-        if (boxes[index].innerText) {
-            tiles.push(parseInt(boxes[index].innerText));
+        const box = boxes[index];
+        if (box && box.innerText) {  // Check both box existence and innerText
+            tiles.push(parseInt(box.innerText));
         }
     }
     return tiles;
@@ -59,8 +62,10 @@ function collectTiles(start, end, step, getIndex) {
 function updateHighestTile() {
     let highest = 0;
     boxes.forEach(box => {
-        const value = parseInt(box.innerText) || 0;
-        highest = Math.max(highest, value);
+        if (box) {  // Only check boxes that exist
+            const value = parseInt(box.innerText) || 0;
+            highest = Math.max(highest, value);
+        }
     });
     highest_tile_span.innerText = highest;
 
@@ -155,44 +160,45 @@ function updateTiles(tiles, getIndex) {
     // Update boxes with new values
     for (let i = 0; i < tiles.length; i++) {
         const index = getIndex(i);
-        const oldValue = boxes[index].innerText;
-        const newValue = tiles[i].toString();
-        
-        if (oldValue !== newValue) {
-            moved = true;
-            const row = Math.floor(index / 4);
-            const col = index % 4;
-            console.log(`Tile at (${row}, ${col}) changed from ${oldValue || 'empty'} to ${newValue}`);
-        }
-        
-        // Remove all previous tile classes
-        boxes[index].classList.remove('tile_2', 'tile_4', 'tile_8', 'tile_16', 'tile_32', 'tile_64', 
-            'tile_128', 'tile_256', 'tile_512', 'tile_1024', 'tile_2048', 'tile_4096', 'tile_8192');
-        
-        // Add position classes
         const row = Math.floor(index / 4);
         const col = index % 4;
-        boxes[index].classList.remove(...Array.from(boxes[index].classList).filter(c => c.startsWith('tile-row') || c.startsWith('tile-col')));
-        boxes[index].classList.add(`tile-row${row}`, `tile-col${col}`);
         
-        // Add the new tile class
-        boxes[index].innerText = tiles[i];
-        boxes[index].classList.add(`tile_${tiles[i]}`);
+        // Find existing tile at this position
+        const existingTile = boxes[index];
+        const newValue = tiles[i].toString();
+        
+        if (!existingTile || existingTile.innerText !== newValue) {
+            moved = true;
+            
+            if (existingTile) {
+                // Update existing tile
+                console.log(`Updating tile at (${row}, ${col}) from ${existingTile.innerText} to ${newValue}`);
+                existingTile.innerText = newValue;
+                existingTile.className = `box tile_${newValue}`;
+                existingTile.classList.add(`tile-row${row}`, `tile-col${col}`);
+            } else {
+                // Create new tile
+                console.log(`Creating new tile ${newValue} at (${row}, ${col})`);
+                const newTile = document.createElement('div');
+                newTile.className = `box tile_${newValue}`;
+                newTile.classList.add(`tile-row${row}`, `tile-col${col}`);
+                newTile.innerText = newValue;
+                tilesContainer.appendChild(newTile);
+                boxes[index] = newTile;
+            }
+        }
     }
 
     // Clear remaining boxes
     for (let i = tiles.length; i < 4; i++) {
         const index = getIndex(i);
-        if (boxes[index].innerText) {
+        if (boxes[index]) {
             const row = Math.floor(index / 4);
             const col = index % 4;
-            console.log(`Clearing tile at (${row}, ${col}) - was ${boxes[index].innerText}`);
+            console.log(`Removing tile at (${row}, ${col}) - was ${boxes[index].innerText}`);
+            boxes[index].remove();
+            boxes[index] = null;
         }
-        boxes[index].innerText = '';
-        // Remove all tile classes when clearing a box
-        boxes[index].classList.remove('tile_2', 'tile_4', 'tile_8', 'tile_16', 'tile_32', 'tile_64', 
-            'tile_128', 'tile_256', 'tile_512', 'tile_1024', 'tile_2048', 'tile_4096', 'tile_8192');
-        boxes[index].classList.remove(...Array.from(boxes[index].classList).filter(c => c.startsWith('tile-row') || c.startsWith('tile-col')));
     }
 
     return moved;
@@ -233,7 +239,6 @@ function slide(direction) {
     };
 
     const config = configs[direction];
-    const isVertical = direction === 'up' || direction === 'down';
     
     for (let i = 0; i < 4; i++) {
         const tiles = collectTiles(
@@ -290,11 +295,9 @@ window.addEventListener('keydown', (event) => {
 });
 
 function resetGame() {
-    boxes.forEach(box => {
-        box.innerText = '';
-        box.classList.remove('tile_2', 'tile_4', 'tile_8', 'tile_16', 'tile_32', 'tile_64', 
-            'tile_128', 'tile_256', 'tile_512', 'tile_1024', 'tile_2048', 'tile_4096', 'tile_8192');
-    });
+    // Remove all existing tiles
+    tilesContainer.innerHTML = '';
+    boxes = new Array(16).fill(null);
     
     span.innerText = '0';
     highest_tile_span.innerText = '0';
